@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>우리 아이 학교 유형 테스트 - 엘리하이 키즈</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <img src="PNG1.png" alt="elihigh kids logo" class="brand-logo" />
+  </header>
+
+  <main class="container">
+    <!-- 인트로 -->
+    <section id="intro" class="card">
+      <h1 class="title">우리 아이 학교 유형 테스트</h1>
+      <p class="subtitle">10문항 · 약 2분 · 모바일 최적화</p>
+      <button id="startBtn" class="btn primary">시작하기</button>
+    </section>
+
+    <!-- 퀴즈 -->
+    <section id="quiz" class="card hidden">
+      <div class="progress">
+        <div class="bar"><span id="barFill" style="width:0%"></span></div>
+        <div class="count"><span id="qIndex">1</span> / 10</div>
+      </div>
+      <h2 id="qText" class="question"></h2>
+      <div class="options">
+        <button id="optA" class="btn option">A</button>
+        <button id="optB" class="btn option">B</button>
+      </div>
+      <div class="nav">
+        <button id="prevBtn" class="btn ghost" disabled>이전</button>
+        <button id="nextBtn" class="btn primary" disabled>다음</button>
+      </div>
+    </section>
+
+    <!-- 결과 -->
+    <section id="result" class="card hidden">
+      <div class="result-head">
+        <img src="PNG3.png" alt="kids badge" class="badge" />
+        <p class="pill">추천 결과</p>
+        <h2 id="topType" class="result-title"></h2>
+        <p id="topWhy" class="result-desc"></p>
+      </div>
+
+      <div class="result-grid">
+        <div class="result-card">
+          <h3 class="sub">핵심 신호</h3>
+          <ul id="signals" class="signals"></ul>
+        </div>
+
+        <div class="result-card">
+          <h3 class="sub">결과 이미지</h3>
+          <div class="image-frame">
+            <img id="resultImg" alt="결과 이미지" crossorigin="anonymous" />
+          </div>
+        </div>
+      </div>
+
+      <div class="share card-soft">
+        <p class="note">
+          더 자세한 비교·체크리스트는
+          <a href="http://files.mbest.co.kr/www/elihigh/kids/elihigh_kids_250724.pdf" target="_blank" rel="noopener">엘리하이 키즈 학부모 정보지</a>에서 확인하세요.
+          본 결과는 참고용입니다. 아이 특성·가족 상황·지역 여건을 함께 고려해 최종 결정해주세요.
+        </p>
+        <div class="hashtags">#엘리하이키즈 #초등입학 #초등학교유형테스트</div>
+        <div class="actions">
+          <button id="shareTest" class="btn primary">테스트 공유하기</button>
+          <button id="retry" class="btn outline">다시하기</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <small>© elihigh kids</small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
