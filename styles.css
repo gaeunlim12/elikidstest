@@ -1,68 +1,376 @@
-:root{
-  --primary:#FFD135; /* brand yellow */
-  --accent:#FF6B35;  /* brand orange */
-  --navy:#2B3144;    /* dark base from logo */
-  --text:#222;
-  --muted:#6b7280;
-  --bg:#f7f7fa;
-  --card:#ffffff;
-  --shadow:0 8px 24px rgba(0,0,0,.08);
-  --radius:16px;
+/* 기본 스타일 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:"Noto Sans",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-img{max-width:100%;display:block}
-
-.app-header{padding:16px 20px;background:var(--card);box-shadow:var(--shadow);position:sticky;top:0;z-index:10}
-.brand-logo{height:36px}
-
-.container{max-width:880px;margin:20px auto;padding:0 16px}
-.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;margin:16px 0}
-.card-soft{background:#fff9e6;border-radius:12px;padding:16px;margin-top:16px}
-
-.title{font-size:24px;margin:8px 0 4px}
-.subtitle{color:var(--muted);margin:0 0 16px}
-.hidden{display:none}
-
-.btn{border:0;border-radius:12px;padding:14px 18px;font-weight:700;cursor:pointer}
-.btn.primary{background:var(--primary)}
-.btn.primary:hover{filter:brightness(.95)}
-.btn.outline{background:white;border:2px solid var(--navy);color:var(--navy)}
-.btn.ghost{background:#f2f3f7;color:#333}
-.btn.small{padding:8px 12px;font-weight:600}
-.btn.option{width:100%;margin:8px 0;background:#fff;border:2px solid #e6e8ef}
-.btn.option.selected{border-color:var(--accent);background:#fff1eb}
-
-.progress{display:flex;align-items:center;gap:12px;margin-bottom:10px}
-.progress .bar{flex:1;height:8px;background:#eee;border-radius:99px;overflow:hidden}
-.progress .bar span{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--primary))}
-.progress .count{font-weight:700;color:var(--muted);min-width:64px;text-align:right}
-
-.question{font-size:20px;line-height:1.4;margin:6px 0 12px}
-.nav{display:flex;gap:8px;margin-top:8px}
-
-.result-head{display:flex;align-items:center;gap:12px}
-.badge{width:68px;height:auto}
-.pill{background:#fff4cc;color:#6a5400;font-weight:700;padding:6px 10px;border-radius:999px;display:inline-block}
-.result-title{font-size:22px;margin:6px 0}
-.result-desc{color:var(--muted);margin-top:0}
-
-.result-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px}
-@media(min-width:800px){
-  .result-grid{grid-template-columns:1fr 1fr}
+body {
+  font-family: 'Noto Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background: #f8f9fa;
 }
 
-.result-card{background:#fafbff;border:1px solid #eef0f6;border-radius:12px;padding:14px}
-.sub{margin:0 0 8px;font-size:16px}
-.signals{margin:0;padding-left:18px;color:#444}
-.signals li{margin:4px 0}
+/* 헤더 스타일 */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
 
-.image-frame{width:100%;aspect-ratio:3/4;border:2px dashed #dcdfea;border-radius:12px;display:grid;place-items:center;background:white;overflow:hidden;position:relative}
-.image-frame img{width:100%;height:100%;object-fit:cover;object-position:center}
+.brand-logo {
+  height: 32px;
+  width: auto;
+}
 
-.share .note{font-size:13px;color:#5b5f66;line-height:1.6}
-.hashtags{margin-top:8px;color:#3f4550}
-.actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.header-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
 
-.app-footer{padding:24px 16px;text-align:center;color:#9aa0a6}
+/* 반응형 헤더 */
+@media (max-width: 480px) {
+  .header-title {
+    font-size: 16px;
+  }
+  
+  .app-header {
+    padding: 12px 16px;
+  }
+}
+
+/* 컨테이너 */
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 카드 */
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  margin-bottom: 20px;
+}
+
+.card-soft {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+}
+
+.hidden {
+  display: none;
+}
+
+/* 타이틀 */
+.title {
+  font-size: 24px;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+
+/* 버튼 */
+.btn {
+  border: none;
+  border-radius: 12px;
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn.primary {
+  background: #FFD135;
+  color: #333;
+}
+
+.btn.primary:hover {
+  background: #ffcc00;
+  transform: translateY(-1px);
+}
+
+.btn.outline {
+  background: white;
+  color: #FF6B35;
+  border: 2px solid #FF6B35;
+}
+
+.btn.outline:hover {
+  background: #FF6B35;
+  color: white;
+}
+
+.btn.ghost {
+  background: transparent;
+  color: #666;
+}
+
+.btn.ghost:hover {
+  background: #f8f9fa;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 진행률 */
+.progress {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.bar {
+  flex: 1;
+  height: 8px;
+  background: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-right: 12px;
+}
+
+.bar span {
+  display: block;
+  height: 100%;
+  background: #FFD135;
+  transition: width 0.3s ease;
+}
+
+.count {
+  font-weight: 600;
+  color: #666;
+  font-size: 14px;
+}
+
+/* 질문 */
+.question {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  line-height: 1.4;
+}
+
+/* 옵션 */
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.btn.option {
+  background: white;
+  border: 2px solid #e9ecef;
+  color: #333;
+  text-align: left;
+  padding: 20px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.btn.option:hover {
+  border-color: #FFD135;
+  background: #fffbf0;
+}
+
+.btn.option.selected {
+  border-color: #FFD135;
+  background: #FFD135;
+  color: #333;
+}
+
+/* 네비게이션 */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.nav .btn {
+  flex: 1;
+}
+
+/* 결과 */
+.result-head {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.badge {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 12px;
+}
+
+.pill {
+  display: inline-block;
+  background: #FFD135;
+  color: #333;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.result-title {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.result-desc {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* 결과 그리드 */
+.result-grid {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.result-card {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.sub {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.signals {
+  list-style: none;
+}
+
+.signals li {
+  padding: 8px 0;
+  border-bottom: 1px solid #e9ecef;
+  font-size: 14px;
+  color: #666;
+}
+
+.signals li:last-child {
+  border-bottom: none;
+}
+
+.image-frame {
+  text-align: center;
+}
+
+.image-frame img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* 공유 */
+.share {
+  text-align: center;
+}
+
+.note {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.note a {
+  color: #FF6B35;
+  text-decoration: none;
+}
+
+.note a:hover {
+  text-decoration: underline;
+}
+
+.hashtags {
+  font-size: 14px;
+  color: #FF6B35;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.actions .btn {
+  flex: 1;
+  max-width: 200px;
+}
+
+/* 푸터 */
+.app-footer {
+  text-align: center;
+  padding: 20px;
+  color: #999;
+  font-size: 12px;
+}
+
+/* 반응형 */
+@media (max-width: 480px) {
+  .container {
+    padding: 16px;
+  }
+  
+  .card {
+    padding: 20px;
+  }
+  
+  .title {
+    font-size: 22px;
+  }
+  
+  .question {
+    font-size: 18px;
+  }
+  
+  .result-title {
+    font-size: 24px;
+  }
+  
+  .actions {
+    flex-direction: column;
+  }
+  
+  .actions .btn {
+    max-width: none;
+  }
+}
