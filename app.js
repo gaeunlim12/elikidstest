@@ -101,7 +101,7 @@ const topWhyEl = el("#topWhy");
 const signalsEl = el("#signals");
 const resultImg = el("#resultImg");
 
-const saveBtn = el("#saveCard");
+const shareBtn = el("#shareTest");
 const retryBtn = el("#retry");
 
 let answers = Array(QUESTIONS.length).fill(null);
@@ -239,50 +239,32 @@ nextBtn.addEventListener("click", ()=>{
   }
 });
 
-// 결과 카드 저장 - 개선된 버전
-saveBtn.addEventListener("click", async ()=>{
-  const node = document.querySelector("#result");
-  const saveButton = document.querySelector("#saveCard");
+// 테스트 공유하기
+shareBtn.addEventListener("click", ()=>{
+  const url = window.location.href;
+  const text = "우리 아이 학교 유형 테스트 - 엘리하이 키즈\n\n10문항으로 알아보는 우리 아이에게 맞는 초등학교 유형!\n\n#엘리하이키즈 #초등입학 #초등학교유형테스트";
   
-  // 버튼 상태 변경
-  saveButton.textContent = "저장 중...";
-  saveButton.disabled = true;
-  
-  try{
-    // html2canvas 사용 (더 안정적)
-    const canvas = await html2canvas(node, {
-      backgroundColor: '#ffffff',
-      scale: 2,
-      useCORS: true,
-      allowTaint: true,
-      logging: false,
-      width: node.offsetWidth,
-      height: node.offsetHeight
+  if (navigator.share) {
+    // 모바일 네이티브 공유
+    navigator.share({
+      title: "우리 아이 학교 유형 테스트",
+      text: text,
+      url: url
+    }).catch(err => console.log('공유 취소:', err));
+  } else {
+    // 데스크톱 - URL 복사
+    navigator.clipboard.writeText(url + "\n\n" + text).then(() => {
+      alert("테스트 링크가 복사되었습니다!\n카카오톡, 인스타그램 등에 붙여넣기 해주세요.");
+    }).catch(() => {
+      // 복사 실패 시 대체 방법
+      const textArea = document.createElement("textarea");
+      textArea.value = url + "\n\n" + text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      alert("테스트 링크가 복사되었습니다!\n카카오톡, 인스타그램 등에 붙여넣기 해주세요.");
     });
-    
-    // Canvas를 Blob으로 변환
-    canvas.toBlob(function(blob) {
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "elihigh-kids-result.png";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-      
-      // 버튼 상태 복원
-      saveButton.textContent = "결과 카드 저장(PNG)";
-      saveButton.disabled = false;
-    }, 'image/png', 1.0);
-    
-  }catch(e){
-    console.error("저장 오류:", e);
-    alert("이미지 저장 중 오류가 발생했어요.\n\n해결 방법:\n1. 로컬 서버로 실행해주세요 (Live Server 등)\n2. 또는 스크린샷을 직접 찍어주세요");
-    
-    // 버튼 상태 복원
-    saveButton.textContent = "결과 카드 저장(PNG)";
-    saveButton.disabled = false;
   }
 });
 
