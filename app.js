@@ -73,14 +73,18 @@ const RESULT_IMAGES = {
   "외국인": "international.png"
 };
 
-// 타이브레이커: 10 -> 1 -> 4
+// 타이브레이커: 10 -> 1 -> 6 -> 4 -> 3 (확장된 버전)
 const TIE_PRIOR = {
   "10A":["공립","국립","사립","대안","외국인"],
   "10B":["외국인","사립","국립","대안","공립"],
-  "1A":["공립","대안","국립","사립","외국인"],
+  "1A":["공립","대안","국립","사립","외국인"], // 대안학교 2순위
   "1B":["국립","사립","외국인","공립","대안"],
+  "6A":["공립","국립","사립","대안","외국인"], // 새로 추가
+  "6B":["외국인","사립","국립","대안","공립"], // 새로 추가 (외국인학교용)
   "4A":["공립","국립","사립","대안","외국인"],
-  "4B":["대안","국립","사립","공립","외국인"],
+  "4B":["대안","국립","사립","공립","외국인"], // 대안학교 1순위
+  "3A":["대안","공립","국립","사립","외국인"], // 새로 추가 (대안학교용)
+  "3B":["국립","사립","외국인","공립","대안"]  // 새로 추가
 };
 
 const el = s=>document.querySelector(s);
@@ -140,21 +144,25 @@ function tally(){
 }
 
 function tieBreak(candidates){
-  const key10 = "10"+answers[9];
-  const pri10 = TIE_PRIOR[key10] || [];
-  const first = candidates.find(t=>pri10.includes(t));
-  if(first) return first;
+  // 확장된 타이브레이커 로직: 10 -> 1 -> 6 -> 4 -> 3
+  const tiebreakers = [
+    {index: 9, prefix: "10"},  // Q10
+    {index: 0, prefix: "1"},   // Q1
+    {index: 5, prefix: "6"},   // Q6 (새로 추가)
+    {index: 3, prefix: "4"},   // Q4
+    {index: 2, prefix: "3"}    // Q3 (새로 추가)
+  ];
 
-  const key1 = "1"+answers[0];
-  const pri1 = TIE_PRIOR[key1] || [];
-  const second = candidates.find(t=>pri1.includes(t));
-  if(second) return second;
+  for (const tb of tiebreakers) {
+    const key = tb.prefix + answers[tb.index];
+    const priority = TIE_PRIOR[key];
+    if (priority) {
+      const winner = candidates.find(t => priority.includes(t));
+      if (winner) return winner;
+    }
+  }
 
-  const key4 = "4"+answers[3];
-  const pri4 = TIE_PRIOR[key4] || [];
-  const third = candidates.find(t=>pri4.includes(t));
-  if(third) return third;
-
+  // 모든 타이브레이커에서도 결정되지 않으면 첫 번째 후보 반환
   return candidates[0];
 }
 
@@ -163,19 +171,19 @@ function explainTop(top, scores){
   if(top==="공립"){
     if(answers[0]==="A") hints.push("동네 친구/생활권 선호");
     if(answers[9]==="A") hints.push("짧은 통학·안정 생활");
-    if(answers[8]==="A") hints.push("기본기/루틴 집중");
+    if(answers[7]==="A") hints.push("기본기/루틴 집중");
   }else if(top==="국립"){
-    if(answers[7]==="B") hints.push("학교-가정 소통 잦음 선호");
+    if(answers[6]==="B") hints.push("학교-가정 소통 잦음 선호");
     if(answers[3]==="A"||answers[3]==="B") hints.push("체계적 수업/프로젝트 균형");
   }else if(top==="사립"){
     if(answers[4]==="A") hints.push("특성화 프로그램 선호");
-    if(answers[8]==="B") hints.push("체험/발표 몰입");
+    if(answers[7]==="B") hints.push("체험/발표 몰입");
   }else if(top==="대안"){
     if(answers[2]==="A") hints.push("저자극·소규모 선호");
-    if(answers[8]==="B") hints.push("프로젝트·만들기 선호");
+    if(answers[7]==="B") hints.push("프로젝트·만들기 선호");
   }else if(top==="외국인"){
     if(answers[5]==="B") hints.push("영어/다문화 흥미");
-    if(answers[9]==="B") hints.push("장거리/보딩 검토 가능");
+    if(answers[8]==="B") hints.push("장거리/보딩 검토 가능");
   }
   signalsEl.innerHTML = hints.map(h=>`<li>${h}</li>`).join("") || "<li>응답 신호 요약을 확인하세요.</li>";
 
