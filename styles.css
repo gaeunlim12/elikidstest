@@ -51,7 +51,6 @@ body {
   }
 }
 
-
 /* 컨테이너 */
 .container {
   max-width: 480px;
@@ -227,6 +226,24 @@ body {
 .result-head {
   text-align: center;
   margin-bottom: 24px;
+}
+
+.pill {
+  display: inline-block;
+  background: #FFD135;
+  color: #333;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.result-title {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: #333;
 }
 
 /* 결과 이미지 - 박스 없이 바로 표시 */
