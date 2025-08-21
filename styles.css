@@ -228,15 +228,31 @@ body {
   margin-bottom: 24px;
 }
 
+
+
 .pill {
   display: inline-block;
   background: #FFD135;
   color: #333;
-  padding: 6px 16px;
-  border-radius: 20px;
+  padding: 8px 20px;
+  border-radius: 50px;
   font-size: 14px;
   font-weight: 600;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 12px rgba(255, 209, 53, 0.3);
+  position: relative;
+}
+
+.pill::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  background: linear-gradient(45deg, rgba(255, 209, 53, 0.2), rgba(255, 107, 53, 0.1));
+  border-radius: 50px;
+  z-index: -1;
 }
 
 .result-title {
