@@ -229,76 +229,13 @@ body {
   margin-bottom: 24px;
 }
 
-.badge {
-  width: 60px;
-  height: 60px;
-  margin-bottom: 12px;
-}
-
-.pill {
-  display: inline-block;
-  background: #FFD135;
-  color: #333;
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-
-.result-title {
-  font-size: 28px;
-  font-weight: 800;
-  margin-bottom: 8px;
-  color: #333;
-}
-
-.result-desc {
-  color: #666;
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-/* 결과 그리드 */
-.result-grid {
-  display: grid;
-  gap: 16px;
+/* 결과 이미지 - 박스 없이 바로 표시 */
+.result-image {
+  text-align: center;
   margin-bottom: 24px;
 }
 
-.result-card {
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 20px;
-}
-
-.sub {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 12px;
-  color: #333;
-}
-
-.signals {
-  list-style: none;
-}
-
-.signals li {
-  padding: 8px 0;
-  border-bottom: 1px solid #e9ecef;
-  font-size: 14px;
-  color: #666;
-}
-
-.signals li:last-child {
-  border-bottom: none;
-}
-
-.image-frame {
-  text-align: center;
-}
-
-.image-frame img {
+.result-image img {
   max-width: 100%;
   height: auto;
   border-radius: 8px;
