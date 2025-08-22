@@ -32,14 +32,96 @@ a: "기초 학력과 올바른 인성을 탄탄히 기르는 것",
 b: "아이의 개성과 창의성을 최대한 발휘하는 것" }
 ];
 
-// 학교 유형별 가중치
+// 학교 유형별 가중치 (A선택지, B선택지 분리)
 const WEIGHTS = {
-"공립": [2, 1, 1, 1, 2, 1, 1, 1, 1, 2],
-"국립": [0, 1, 1, 1, 1, 0, 1, 1, 1, 1],
-"사립": [1, 0, 0, 0, 1, 0, 0, 0, 0, 1],
-"대안": [1, 2, 0, 2, 0, 2, 2, 1, 2, 0],
-"외국인": [0, 0, 1, 1, 0, 1, 1, 1, 1, 0]
+  "공립": {
+    A: [2, 1, 1, 2, 2, 1, 2, 2, 2, 3],
+    B: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  },
+  "국립": {
+    A: [0, 1, 0, 1, 0, 1, 0, 1, 1, 0],
+    B: [1, 1, 1, 1, 0, 0, 2, 1, 1, 1]
+  },
+  "사립": {
+    A: [1, 0, 0, 1, 2, 0, 0, 0, 0, 0],
+    B: [0, 2, 1, 1, 0, 1, 2, 1, 1, 1]
+  },
+  "대안": {
+    A: [1, 0, 2, 0, 0, 0, 0, 0, 0, 0],
+    B: [0, 2, 0, 2, 0, 0, 0, 2, 1, 1]
+  },
+  "외국인": {
+    A: [0, 0, 0, 0, 2, 0, 0, 0, 0, 0],
+    B: [1, 0, 1, 0, 0, 2, 0, 1, 2, 3]
+  }
 };
+
+// 결과 계산 함수 수정
+function showResult() {
+  const scores = {};
+  
+  for (const type in WEIGHTS) {
+    scores[type] = 0;
+    for (let i = 0; i < answers.length; i++) {
+      if (answers[i] === 'A') {
+        scores[type] += WEIGHTS[type].A[i];
+      } else if (answers[i] === 'B') {
+        scores[type] += WEIGHTS[type].B[i];
+      }
+    }
+  }
+  
+  // 최고 점수 찾기 (동점 시 타이브레이커 적용)
+  let topSchools = [];
+  let maxScore = Math.max(...Object.values(scores));
+  
+  for (const type in scores) {
+    if (scores[type] === maxScore) {
+      topSchools.push(type);
+    }
+  }
+  
+  // 타이브레이커 적용
+  let finalSchool = topSchools[0];
+  if (topSchools.length > 1) {
+    finalSchool = applyTiebreaker(topSchools, answers);
+  }
+  
+  // 결과 표시
+  topType.textContent = SCHOOL_RESULTS[finalSchool];
+  if (SCHOOL_IMAGES[finalSchool]) {
+    resultImg.src = SCHOOL_IMAGES[finalSchool];
+    resultImg.alt = SCHOOL_RESULTS[finalSchool] + ' 결과 이미지';
+  }
+  
+  quiz.classList.add('hidden');
+  result.classList.remove('hidden');
+}
+
+// 타이브레이커 함수 추가
+function applyTiebreaker(tiedSchools, answers) {
+  const questionsToCheck = [9, 0, 5, 3, 2]; // Q10, Q1, Q6, Q4, Q3 (0-based index)
+
+  for (const qIndex of questionsToCheck) {
+    const key = (qIndex + 1) + answers[qIndex]; // ex: "10A", "1B"
+    const priorityList = TIE_PRIOR[key];
+    if (!priorityList) continue;
+
+    for (const school of priorityList) {
+      if (tiedSchools.includes(school)) {
+        return school;
+      }
+    }
+  }
+
+  // 기본 우선순위
+  const defaultPriority = ['공립', '국립', '사립', '대안', '외국인'];
+  for (const school of defaultPriority) {
+    if (tiedSchools.includes(school)) return school;
+  }
+
+  return tiedSchools[0];
+}
 
 // 학교 유형별 이미지 파일명
 const SCHOOL_IMAGES = {
