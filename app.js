@@ -1,291 +1,191 @@
-// 문항 + 가중치(v1_재수정2)
+// 질문 데이터
 const QUESTIONS = [
-  {q:1, text:"우리 아이는 어떤 친구 관계를 더 편안해하나요?",
-    A:{label:"A. 같은 아파트(동네) 친구들과 자주 만나 놀고, 함께 다니는 걸 좋아해요.",
-       w:{공립:2, 국립:0, 사립:1, 대안:1, 외국인:0}},
-    B:{label:"B. 처음 만난 친구와도 금방 어울리고, 새로운 모임에도 잘 끼어요.",
-       w:{공립:0, 국립:1, 사립:0, 대안:0, 외국인:1}}
-  },
-  {q:2, text:"우리 아이는 어떤 방식의 칭찬을 더 좋아하나요?",
-    A:{label:"A. 칭찬스티커/도장처럼 '기준을 채우면 주는 보상'을 좋아해요.",
-       w:{공립:1, 국립:1, 사립:0, 대안:0, 외국인:0}},
-    B:{label:"B. '여기 이렇게 해서 좋았어'처럼 아이가 한 걸 자세히 봐주는 칭찬에 더 동기가 생겨요.",
-       w:{공립:0, 국립:1, 사립:2, 대안:2, 외국인:0}}
-  },
-  {q:3, text:"우리 아이는 시끌벅적한 자리에서 어떻게 반응하나요?",
-    A:{label:"A. 행사나 소리가 큰 곳에서는 쉽게 지치고, 조용한 곳을 찾으려 해요.",
-       w:{공립:1, 국립:0, 사립:0, 대안:2, 외국인:0}},
-    B:{label:"B. 떠들썩해도 잠깐 쉬면 다시 잘 놀고 금방 적응해요.",
-       w:{공립:0, 국립:1, 사립:1, 대안:0, 외국인:1}}
-  },
-  {q:4, text:"우리 가족은 아이 교육에서 무엇을 더 우선하나요?",
-    A:{label:"A. 기본기부터 탄탄하게 쌓고, 체계적으로 학습하는 걸 더 중시해요.",
-       w:{공립:2, 국립:1, 사립:1, 대안:0, 외국인:0}},
-    B:{label:"B. 협력·탐구·체험 같은 과정과 경험에서 배우는 성장을 더 중시해요.",
-       w:{공립:0, 국립:1, 사립:1, 대안:2, 외국인:0}}
-  },
-  {q:5, text:"우리 아이는 특별히 선호하는 특성화 활동이 있나요?",
-    A:{label:"A. 피아노/미술/체육/언어 같은 '특별 활동'에 깊은 관심과 선호가 있어요.",
-       w:{공립:0, 국립:1, 사립:2, 대안:0, 외국인:2}},
-    B:{label:"B. 특별히 선호하는 '특별 활동'이 있지는 않아요.",
-       w:{공립:2, 국립:0, 사립:0, 대안:0, 외국인:0}}
-  },
-  {q:6, text:"우리 아이는 언어·다문화 노출에 어떻게 반응하나요?",
-    A:{label:"A. 한국어 설명이 편하고, 영어는 노래 따라 부르기 정도면 충분해요.",
-       w:{공립:1, 국립:1, 사립:0, 대안:0, 외국인:0}},
-    B:{label:"B. 간단한 영어 지시·놀이도 좋아하고, 다른 문화 이야기에도 호기심이 커요.",
-       w:{공립:0, 국립:0, 사립:1, 대안:0, 외국인:2}}
-  },
-  {q:7, text:"우리 가족은 기관(유치원)과의 소통에서 어떤 방식을 더 선호하나요?",
-    A:{label:"A. 알림장/가정통신문처럼 일정이 정리되어 오는 방식이면 충분해요.",
-       w:{공립:2, 국립:0, 사립:0, 대안:0, 외국인:0}},
-    B:{label:"B. 사진·영상 공유, 설명회·행사 안내처럼 자주 소통해 주면 더 안심돼요.",
-       w:{공립:0, 국립:2, 사립:2, 대안:0, 외국인:0}}
-  },
-  {q:8, text:"우리 아이는 어떤 활동에서 더 몰입하나요?",
-    A:{label:"A. 따라 쓰기, 숫자 세기, 책 읽기처럼 '차근차근 따라하는 활동'에서 더 집중해요.",
-       w:{공립:2, 국립:1, 사립:0, 대안:0, 외국인:0}},
-    B:{label:"B. 만들기, 실험, 발표·공연, 체험처럼 '자유롭게 표현하는 활동'에 더 성취감을 느껴요.",
-       w:{공립:0, 국립:1, 사립:1, 대안:2, 외국인:1}}
-  },
-  {q:9, text:"우리 가족은 학교 선택·지원 방식에 대해 어떻게 생각하나요?",
-    A:{label:"A. 배정된 학교로 가는 일반 절차가 마음이 편하고, 추가 지원은 부담돼요.",
-       w:{공립:2, 국립:1, 사립:0, 대안:0, 외국인:0}},
-    B:{label:"B. 아이와 잘 맞는 학교를 찾기 위해 지원/면접 절차를 시간을 들여 알아보고, 고액의 학비도 부담할 의향이 있어요.",
-       w:{공립:0, 국립:1, 사립:1, 대안:1, 외국인:2}}
-  },
-  {q:10, text:"우리 가족은 통학·생활 방식에서 무엇을 더 중요하게 보나요?",
-    A:{label:"A. 통학 시간은 최대한 짧게, 안정적인 생활 환경을 가졌으면 해요.",
-       w:{공립:3, 국립:0, 사립:0, 대안:0, 외국인:0}},
-    B:{label:"B. 좋은 학교라면 장거리 통학이나 기숙학교도 선택할 수 있어요.",
-       w:{공립:0, 국립:1, 사립:1, 대안:1, 외국인:3}}
-  }
+{ q: "우리 아이는 어떤 친구 관계를 더 편안해하나요?",
+a: "같은 아파트(동네) 친구들과 자주 만나 놀고, 함께 다니는 걸 좋아해요.",
+b: "처음 만난 친구와도 금방 어울리고, 새로운 모임에도 잘 끼어요." },
+{ q: "우리 아이는 어떤 방식의 칭찬을 더 좋아하나요?",
+a: "칭찬스티커/도장처럼 '기준을 채우면 주는 보상'을 좋아해요.",
+b: "'여기 이렇게 해서 좋았어'처럼 아이가 한 걸 자세히 봐주는 칭찬에 더 동기가 생겨요." },
+{ q: "우리 아이는 시끌벅적한 자리에서 어떻게 반응하나요?",
+a: "처음엔 조용히 있다가 익숙해지면 적극적으로 참여해요.",
+b: "바로 분위기에 맞춰 활발하게 참여해요." },
+{ q: "우리 아이가 새로운 것을 배울 때 어떤 방식을 선호하나요?",
+a: "차근차근 단계별로 배우는 걸 좋아해요.",
+b: "전체적인 그림을 보고 자유롭게 탐색하며 배우는 걸 좋아해요." },
+{ q: "우리 아이는 규칙에 대해 어떤 태도를 보이나요?",
+a: "정해진 규칙을 잘 따르고, 규칙이 있으면 안정감을 느껴요.",
+b: "규칙보다는 상황에 맞게 유연하게 행동하는 편이에요." },
+{ q: "우리 아이는 어떤 활동을 더 좋아하나요?",
+a: "책 읽기, 그리기, 만들기 같은 조용한 활동을 좋아해요.",
+b: "몸을 움직이는 활동이나 여러 친구들과 함께 하는 활동을 좋아해요." },
+{ q: "우리 아이는 문제 상황에서 어떻게 반응하나요?",
+a: "어른에게 도움을 요청하거나 정해진 방법을 찾으려 해요.",
+b: "스스로 여러 방법을 시도해보며 해결하려 해요." },
+{ q: "우리 아이는 어떤 환경에서 더 집중을 잘하나요?",
+a: "조용하고 정돈된 환경에서 집중을 잘해요.",
+b: "약간의 소음이나 변화가 있어도 잘 적응하며 집중해요." },
+{ q: "우리 아이의 학습 스타일은 어떤가요?",
+a: "반복 학습을 통해 확실히 익히는 걸 좋아해요.",
+b: "다양한 방법으로 창의적으로 접근하는 걸 좋아해요." },
+{ q: "우리 가족이 중요하게 생각하는 교육 가치는 무엇인가요?",
+a: "기초 학력과 올바른 인성을 탄탄히 기르는 것",
+b: "아이의 개성과 창의성을 최대한 발휘하는 것" }
 ];
 
-const TYPES = ["공립","국립","사립","대안","외국인"];
-
-// 결과 이미지 매핑(사전 준비된 이미지 자동 노출)
-const RESULT_IMAGES = {
-  "공립": "public.png",
-  "국립": "national.png",
-  "사립": "private.png",
-  "대안": "alternative.png",
-  "외국인": "international.png"
+// 학교 유형별 가중치
+const WEIGHTS = {
+"공립": [2, 1, 1, 1, 2, 1, 1, 1, 1, 2],
+"국립": [0, 1, 1, 1, 1, 0, 1, 1, 1, 1],
+"사립": [1, 0, 0, 0, 1, 0, 0, 0, 0, 1],
+"대안": [1, 2, 0, 2, 0, 2, 2, 1, 2, 0],
+"외국인": [0, 0, 1, 1, 0, 1, 1, 1, 1, 0]
 };
 
-// 타이브레이커: 10 -> 1 -> 6 -> 4 -> 3 (확장된 버전)
-const TIE_PRIOR = {
-  // Q10 타이브레이커 - 외국인학교 약화
-  "10A": ["공립", "국립", "사립", "대안", "외국인"],
-  "10B": ["사립", "국립", "대안", "외국인", "공립"], // 외국인 4순위로 약화
-  
-  // Q1 타이브레이커 - 균형 조정
-  "1A": ["공립", "국립", "사립", "대안", "외국인"],
-  "1B": ["국립", "사립", "대안", "외국인", "공립"], // 외국인 4순위
-  
-  // Q6 타이브레이커 - 외국인학교 약화
-  "6A": ["공립", "국립", "사립", "대안", "외국인"],
-  "6B": ["사립", "국립", "대안", "외국인", "공립"], // 외국인 4순위로 약화
-  
-  // Q4 타이브레이커 - 기존 유지
-  "4A": ["공립", "국립", "사립", "대안", "외국인"],
-  "4B": ["국립", "사립", "공립", "대안", "외국인"], // 대안학교 과도한 우선순위 제거
-  
-  // Q3 타이브레이커 - 기존 유지 (대안학교 자연스러운 우선순위)
-  "3A": ["공립", "국립", "사립", "대안", "외국인"], // 대안학교 특별 우선순위 제거
-  "3B": ["국립", "사립", "공립", "대안", "외국인"]
+// 학교 유형별 이미지 파일명
+const SCHOOL_IMAGES = {
+"공립": "public.png",
+"사립": "private.png",
+"국립": "national.png",
+"외국인": "international.png",
+"대안": "alternative.png"
 };
 
-const el = s=>document.querySelector(s);
-const startBtn = el("#startBtn");
-const intro = el("#intro");
-const quiz = el("#quiz");
-const result = el("#result");
-const qText = el("#qText");
-const optA = el("#optA");
-const optB = el("#optB");
-const nextBtn = el("#nextBtn");
-const prevBtn = el("#prevBtn");
-const idxSpan = el("#qIndex");
-const barFill = el("#barFill");
+// 학교 유형별 결과 텍스트
+const SCHOOL_RESULTS = {
+"공립": "공립학교",
+"사립": "사립학교",
+"국립": "국립학교",
+"외국인": "외국인학교",
+"대안": "대안학교"
+};
 
-const topTypeEl = el("#topType");
-const topWhyEl = el("#topWhy");
-const signalsEl = el("#signals");
-const resultImg = el("#resultImg");
+// 전역 상태
+let currentQ = 0;
+let answers = [];
 
-const shareBtn = el("#shareTest");
-const retryBtn = el("#retry");
+// DOM
+const intro = document.getElementById('intro');
+const quiz = document.getElementById('quiz');
+const result = document.getElementById('result');
+const startBtn = document.getElementById('startBtn');
+const qText = document.getElementById('qText');
+const optA = document.getElementById('optA');
+const optB = document.getElementById('optB');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const qIndex = document.getElementById('qIndex');
+const barFill = document.getElementById('barFill');
+const topType = document.getElementById('topType');
+const resultImg = document.getElementById('resultImg');
+const retryBtn = document.getElementById('retry');
 
-let answers = Array(QUESTIONS.length).fill(null);
-let pointer = 0;
+// 이벤트
+startBtn.addEventListener('click', startQuiz);
+optA.addEventListener('click', () => selectOption('A'));
+optB.addEventListener('click', () => selectOption('B'));
+prevBtn.addEventListener('click', prevQuestion);
+nextBtn.addEventListener('click', nextQuestion);
+retryBtn.addEventListener('click', restart);
 
-function renderQuestion(){
-  const q = QUESTIONS[pointer];
-  qText.textContent = q.text;
-  optA.textContent = q.A.label;
-  optB.textContent = q.B.label;
-  [optA,optB].forEach(b=>b.classList.remove("selected"));
-  if(answers[pointer]==="A") optA.classList.add("selected");
-  if(answers[pointer]==="B") optB.classList.add("selected");
-
-  idxSpan.textContent = (pointer+1);
-  barFill.style.width = ((pointer)/QUESTIONS.length*100)+"%";
-  prevBtn.disabled = pointer===0;
-  nextBtn.disabled = answers[pointer]==null;
-  nextBtn.textContent = pointer===QUESTIONS.length-1 ? "결과 보기" : "다음";
+// 시작
+function startQuiz() {
+intro.classList.add('hidden');
+quiz.classList.remove('hidden');
+showQuestion();
 }
 
-function choose(opt){
-  answers[pointer] = opt;
-  nextBtn.disabled = false;
-  renderQuestion();
+// 질문 표시
+function showQuestion() {
+const q = QUESTIONS[currentQ];
+qText.textContent = q.q;
+optA.textContent = q.a;
+optB.textContent = q.b;
+
+qIndex.textContent = currentQ + 1;
+barFill.style.width = ((currentQ + 1) / QUESTIONS.length * 100) + '%';
+
+optA.classList.remove('selected');
+optB.classList.remove('selected');
+nextBtn.disabled = true;
+
+if (answers[currentQ]) {
+(answers[currentQ] === 'A' ? optA : optB).classList.add('selected');
+nextBtn.disabled = false;
 }
 
-function tally(){
-  const total = {"공립":0,"국립":0,"사립":0,"대안":0,"외국인":0};
-  QUESTIONS.forEach((q,i)=>{
-    const opt = answers[i];
-    const map = q[opt].w;
-    TYPES.forEach(t=> total[t]+= (map[t]||0) );
-  });
-  return total;
+prevBtn.disabled = currentQ === 0;
 }
 
-function tieBreak(candidates){
-  // 확장된 타이브레이커 로직: 10 -> 1 -> 6 -> 4 -> 3
-  const tiebreakers = [
-    {index: 9, prefix: "10"},  // Q10
-    {index: 0, prefix: "1"},   // Q1
-    {index: 5, prefix: "6"},   // Q6 (새로 추가)
-    {index: 3, prefix: "4"},   // Q4
-    {index: 2, prefix: "3"}    // Q3 (새로 추가)
-  ];
+// 선택
+function selectOption(option) {
+optA.classList.remove('selected');
+optB.classList.remove('selected');
+(option === 'A' ? optA : optB).classList.add('selected');
 
-  for (const tb of tiebreakers) {
-    const key = tb.prefix + answers[tb.index];
-    const priority = TIE_PRIOR[key];
-    if (priority) {
-      const winner = candidates.find(t => priority.includes(t));
-      if (winner) return winner;
-    }
-  }
-
-  // 모든 타이브레이커에서도 결정되지 않으면 첫 번째 후보 반환
-  return candidates[0];
+answers[currentQ] = option;
+nextBtn.disabled = false;
 }
 
-function explainTop(top, scores){
-  const hints = [];
-  if(top==="공립"){
-    if(answers[0]==="A") hints.push("동네 친구/생활권 선호");
-    if(answers[9]==="A") hints.push("짧은 통학·안정 생활");
-    if(answers[7]==="A") hints.push("기본기/루틴 집중");
-  }else if(top==="국립"){
-    if(answers[6]==="B") hints.push("학교-가정 소통 잦음 선호");
-    if(answers[3]==="A"||answers[3]==="B") hints.push("체계적 수업/프로젝트 균형");
-  }else if(top==="사립"){
-    if(answers[4]==="A") hints.push("특성화 프로그램 선호");
-    if(answers[7]==="B") hints.push("체험/발표 몰입");
-  }else if(top==="대안"){
-    if(answers[2]==="A") hints.push("저자극·소규모 선호");
-    if(answers[7]==="B") hints.push("프로젝트·만들기 선호");
-  }else if(top==="외국인"){
-    if(answers[5]==="B") hints.push("영어/다문화 흥미");
-    if(answers[8]==="B") hints.push("장거리/보딩 검토 가능");
-  }
-  signalsEl.innerHTML = hints.map(h=>`<li>${h}</li>`).join("") || "<li>응답 신호 요약을 확인하세요.</li>";
-
-  const why = {
-    "공립":"집과 가깝고 루틴이 분명한 환경에서 안정적으로 성장하는 패턴이에요.",
-    "국립":"기본기는 탄탄하게, 수업·소통은 조금 더 체계적으로 맞는 편이에요.",
-    "사립":"특성화와 다양한 경험이 동기부여를 키우는 유형이에요.",
-    "대안":"작은 공동체와 체험 중심 수업에서 집중력이 살아나요.",
-    "외국인":"영어·프로젝트 중심 수업과 다문화 환경에서 에너지가 납니다."
-  }[top];
-  topWhyEl.textContent = why || "";
-
-  // 결과 이미지 자동 노출
-  resultImg.src = RESULT_IMAGES[top];
-  resultImg.alt = `${top} 결과 이미지`;
+// 네비게이션
+function prevQuestion() {
+if (currentQ > 0) {
+currentQ--;
+showQuestion();
+}
 }
 
-function computeResult(){
-  const scores = tally();
-  const max = Math.max(...Object.values(scores));
-  const candidates = TYPES.filter(t=>scores[t]===max);
-  const top = candidates.length===1 ? candidates[0] : tieBreak(candidates);
-
-  topTypeEl.textContent = `${top}학교 추천`;
-  explainTop(top, scores);
+function nextQuestion() {
+if (currentQ < QUESTIONS.length - 1) {
+currentQ++;
+showQuestion();
+} else {
+showResult();
+}
 }
 
-function reset(){
-  answers = Array(QUESTIONS.length).fill(null);
-  pointer = 0;
-  [intro,quiz,result].forEach(s=>s.classList.add("hidden"));
-  intro.classList.remove("hidden");
-  // 결과 이미지 초기화(빈 상태 유지)
-  resultImg.removeAttribute("src");
-  resultImg.alt = "결과 이미지";
+// 결과
+function showResult() {
+const scores = {};
+
+for (const type in WEIGHTS) {
+scores[type] = 0;
+for (let i = 0; i < answers.length; i++) {
+if (answers[i] === 'A') {
+scores[type] += WEIGHTS[type][i];
+} else if (answers[i] === 'B') {
+// B에 대한 별도 가중치가 없다면 0 처리
+scores[type] += WEIGHTS[type][i * 2 + 1] || 0;
+}
+}
 }
 
-startBtn.addEventListener("click", ()=>{
-  intro.classList.add("hidden");
-  quiz.classList.remove("hidden");
-  renderQuestion();
-});
+// 최고 점수
+let topTypeKey = '';
+let maxScore = -1;
+for (const type in scores) {
+if (scores[type] > maxScore) {
+maxScore = scores[type];
+topTypeKey = type;
+}
+}
 
-optA.addEventListener("click", ()=>choose("A"));
-optB.addEventListener("click", ()=>choose("B"));
+// 결과 바인딩
+topType.textContent = SCHOOL_RESULTS[topTypeKey] || '추천 결과';
+if (SCHOOL_IMAGES[topTypeKey]) {
+resultImg.src = SCHOOL_IMAGES[topTypeKey];
+resultImg.alt = (SCHOOL_RESULTS[topTypeKey] || '') + ' 결과 이미지';
+} else {
+resultImg.removeAttribute('src'); // 잘못된 경로일 때 브로큰 이미지 방지
+}
 
-prevBtn.addEventListener("click", ()=>{
-  if(pointer>0){ pointer--; renderQuestion(); }
-});
-nextBtn.addEventListener("click", ()=>{
-  if(answers[pointer]==null) return;
-  if(pointer<QUESTIONS.length-1){
-    pointer++;
-    renderQuestion();
-  }else{
-    // 완료
-    barFill.style.width = "100%";
-    quiz.classList.add("hidden");
-    result.classList.remove("hidden");
-    computeResult();
-  }
-});
+quiz.classList.add('hidden');
+result.classList.remove('hidden');
+}
 
-// 테스트 공유하기
-shareBtn.addEventListener("click", ()=>{
-  const url = window.location.href;
-  const text = "우리 아이 학교 유형 테스트 - 엘리하이 키즈\n\n10문항으로 알아보는 우리 아이에게 맞는 초등학교 유형!\n\n#엘리하이키즈 #초등입학 #초등학교유형테스트";
-  
-  if (navigator.share) {
-    // 모바일 네이티브 공유
-    navigator.share({
-      title: "우리 아이 학교 유형 테스트",
-      text: text,
-      url: url
-    }).catch(err => console.log('공유 취소:', err));
-  } else {
-    // 데스크톱 - URL 복사
-    navigator.clipboard.writeText(url + "\n\n" + text).then(() => {
-      alert("테스트 링크가 복사되었습니다!\n카카오톡, 인스타그램 등에 붙여넣기 해주세요.");
-    }).catch(() => {
-      // 복사 실패 시 대체 방법
-      const textArea = document.createElement("textarea");
-      textArea.value = url + "\n\n" + text;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textArea);
-      alert("테스트 링크가 복사되었습니다!\n카카오톡, 인스타그램 등에 붙여넣기 해주세요.");
-    });
-  }
-});
-
-retryBtn.addEventListener("click", reset);
-
-// 초기화
-reset();
+// 다시하기
+function restart() {
+currentQ = 0;
+answers = [];
+result.classList.add('hidden');
+intro.classList.remove('hidden');
+}
