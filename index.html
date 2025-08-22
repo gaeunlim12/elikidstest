@@ -1,13 +1,65 @@
 <!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8" />
+<meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  
+  <!-- SEO 및 메타데이터 강화 (여기 추가) -->
   <title>우리 아이 학교 유형 테스트 - 엘리하이 키즈</title>
+  <meta name="description" content="우리 아이에게 맞는 초등학교 유형을 찾아보세요. 10개 간단한 질문으로 개인 맞춤형 추천을 받아보세요.">
+  <meta name="keywords" content="초등학교, 학교 유형, 교육, 엘리하이키즈, 학부모, 테스트">
+  <meta name="author" content="MegastudyEdu Co., Ltd.">
+  
+  <!-- Open Graph (소셜 미디어 공유용) -->
+  <meta property="og:title" content="우리 아이 학교 유형 테스트 - 엘리하이 키즈">
+  <meta property="og:description" content="우리 아이에게 맞는 초등학교 유형을 찾아보세요. 10개 간단한 질문으로 개인 맞춤형 추천을 받아보세요.">
+  <meta property="og:image" content="" id="ogImage">
+  <meta property="og:url" content="" id="ogUrl">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="엘리하이 키즈">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="우리 아이 학교 유형 테스트 - 엘리하이 키즈">
+  <meta name="twitter:description" content="우리 아이에게 맞는 초등학교 유형을 찾아보세요.">
+ <meta name="twitter:image" content="" id="twitterImage">
+  
+  <!-- 브라우저 테마 색상 -->
+  <meta name="theme-color" content="#FFD135">
+  
+  <!-- 파비콘 -->
+  <link rel="icon" type="image/png" sizes="32x32" href="./PNG1.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./PNG1.png">
+  
+  <!-- 폰트 최적화 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700;800&display=swap" as="style">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="styles.css" />
+
+    <!-- 동적 메타태그 설정 -->
+  <script>
+    // 페이지 로드 시 즉시 실행 (SEO를 위해 가능한 빨리)
+    (function() {
+      const currentUrl = window.location.href;
+      const imageUrl = new URL('./PNG1.png', currentUrl).href;
+      
+      // Open Graph URL 설정
+      document.getElementById('ogUrl').setAttribute('content', currentUrl);
+      
+      // 이미지 URL 설정 (절대 경로로 변환)
+      document.getElementById('ogImage').setAttribute('content', imageUrl);
+      document.getElementById('twitterImage').setAttribute('content', imageUrl);
+      
+      // 디버깅용 (개발 시에만)
+      console.log('Dynamic meta tags set:', {
+        url: currentUrl,
+        image: imageUrl
+      });
+    })();
+  </script>
 </head>
 <body>
   <header class="app-header">
