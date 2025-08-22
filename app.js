@@ -77,6 +77,7 @@ const qIndex = document.getElementById('qIndex');
 const barFill = document.getElementById('barFill');
 const topType = document.getElementById('topType');
 const resultImg = document.getElementById('resultImg');
+const shareBtn = document.getElementById('shareTest');
 const retryBtn = document.getElementById('retry');
 
 // 이벤트
@@ -85,6 +86,7 @@ optA.addEventListener('click', () => selectOption('A'));
 optB.addEventListener('click', () => selectOption('B'));
 prevBtn.addEventListener('click', prevQuestion);
 nextBtn.addEventListener('click', nextQuestion);
+shareBtn.addEventListener('click', shareTest);
 retryBtn.addEventListener('click', restart);
 
 // 시작
@@ -180,6 +182,45 @@ resultImg.removeAttribute('src'); // 잘못된 경로일 때 브로큰 이미지
 
 quiz.classList.add('hidden');
 result.classList.remove('hidden');
+}
+
+// 공유하기
+function shareTest() {
+  const url = window.location.href;
+  const text = '우리 아이 학교 유형 테스트 - 엘리하이 키즈';
+  
+  // Web Share API 지원 확인 (모바일)
+  if (navigator.share) {
+    navigator.share({
+      title: text,
+      text: '우리 아이에게 맞는 학교 유형을 찾아보세요!',
+      url: url
+    }).catch(err => console.log('공유 실패:', err));
+  } 
+  // 클립보드 복사 (데스크톱)
+  else if (navigator.clipboard) {
+    navigator.clipboard.writeText(`${text}\n${url}`)
+      .then(() => alert('링크가 클립보드에 복사되었습니다!'))
+      .catch(() => fallbackCopy(url));
+  }
+  // 폴백 방법
+  else {
+    fallbackCopy(url);
+  }
+}
+
+function fallbackCopy(text) {
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  document.body.appendChild(textarea);
+  textarea.select();
+  try {
+    document.execCommand('copy');
+    alert('링크가 클립보드에 복사되었습니다!');
+  } catch (err) {
+    alert('링크 복사에 실패했습니다. 수동으로 복사해주세요:\n' + text);
+  }
+  document.body.removeChild(textarea);
 }
 
 // 다시하기
